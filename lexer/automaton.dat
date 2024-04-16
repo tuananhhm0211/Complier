@@ -1,0 +1,60 @@
+starting_state 0
+
+TRANSITIONS
+0 character 1
+0 exponent 1
+0 digit 2
+0 keyword 3
+0 arithmetic_1 4
+0 arithmetic_2 4
+0 relational 5
+0 equality 6
+0 logical 7
+0 assignment 8
+0 separator 9
+0 boolean 10
+0 dot 11
+0 double_quote 16
+0 eof 22
+0 space 23
+1 character 1
+1 exponent 1
+1 digit 1
+2 exponent 18
+2 digit 2
+2 dot 19
+11 digit 12
+12 exponent 13
+12 digit 12
+13 digit 15
+13 arithmetic_1 14
+14 digit 15
+15 digit 15
+16 double_quote 17
+16 other 16
+18 digit 21
+18 arithmetic_1 20
+19 exponent 18
+19 digit 11
+20 digit 21
+21 digit 21
+23 space 23
+
+ENDSTATES
+1 IDENTIFIER
+2 INTLITERAL
+3 KEYWORD
+4 ARITHMETIC
+5 RELATIONAL
+6 EQUALITY
+7 LOGICAL
+8 ASSIGNMENT
+9 SEPARATOR
+10 BOOLEANLITERAL
+12 FLOATLITERAL
+15 FLOATLITERAL
+17 STRINGLITERAL
+19 FLOATLITERAL
+21 FLOATLITERAL
+22 EOF
+23 SPACE
