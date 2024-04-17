@@ -2,6 +2,7 @@ import json
 
 
 def readAutomation():
+    #read file .dat save graph and end states
     f = open("automaton.dat", "r")
     graph = dict()
     endstate = dict()
@@ -76,9 +77,11 @@ def scan(graph, end, token, input_file):
     inComment = False
     index_x = -1
     nextFlag = False
+
     for line in f:
         for x in line:
             index_x += 1
+
             if nextFlag:
                 nextFlag = False
                 continue
@@ -88,7 +91,7 @@ def scan(graph, end, token, input_file):
                 if "*/" in line:
                     inComment = False
                 break
-
+            #next until char non alphabet
             if x.isalpha() and state == "0":
                 current_word += x
                 if x != line[-1]:
@@ -108,6 +111,7 @@ def scan(graph, end, token, input_file):
                     current_word += x
                     state = next_state
                     continue
+
                 #keyword
                 next_state = find_next_state(graph, token, state, current_word)
                 if next_state == "3":
@@ -119,10 +123,10 @@ def scan(graph, end, token, input_file):
                         continue
                 elif state != "2":
                     state = "1"
-
+            #get 2 consecutive characters
             if index_x < len(line) - 1:
                 char_2 = x + line[index_x + 1]
-                #comment
+                #skip comment
                 if char_2 == '//':
                     current_word = ""
                     break
@@ -137,6 +141,8 @@ def scan(graph, end, token, input_file):
                         count_col = count_col + len(current_word)
                         state = "0"
                         current_word = ""
+
+                #input 2 character
                 next_state = find_next_state(graph, token, state, char_2)
                 if next_state != None:
                     output(end, vc_tok, vc_tok_verbose, next_state, char_2, count_line, count_col)
@@ -145,7 +151,9 @@ def scan(graph, end, token, input_file):
                     nextFlag = True
                     continue
 
+            #check 1 character
             if x not in token["space"]:
+
                 next_state = find_next_state(graph, token, state, x)
                 if next_state == None and check_end_state(end, state):
                     if end[state] != "SPACE":
@@ -153,43 +161,51 @@ def scan(graph, end, token, input_file):
                     count_col = count_col + len(current_word)
                     current_word = ""
                     state = "0"
+
                 if x == line[-1]:
                     next_state = find_next_state(graph, token, state, x)
                     if check_end_state(end, next_state):
                         if end[next_state] != "SPACE":
                             output(end, vc_tok, vc_tok_verbose, next_state, x, count_line, count_col)
+
                 else:
                     next_state = find_next_state(graph, token, state, x)
                     next_next_state = find_next_state(graph, token, next_state, line[index_x + 1])
+
                     if next_next_state != None:
                         current_word += x
                         state = next_state
                         continue
+
                     if check_end_state(end, next_state) and end[next_state] != "SPACE":
                         output(end, vc_tok, vc_tok_verbose, next_state, current_word + x, count_line, count_col)
                         count_col += 1
                         current_word = ""
                         state = "0"
-                    else:
-                        current_word += x
-                        state = next_state
+
+                    # else:
+                    #     current_word += x
+                    #     state = next_state
+                    #     print("hi")
             else:
-                next_state = find_next_state(graph, token, state, x)
-                if check_end_state(end, next_state):
-                    if end[next_state] != "SPACE":
-                        output(end, vc_tok, vc_tok_verbose, state, current_word, count_line, count_col)
-                    count_col = len(current_word) + count_col + 1
-                    state = "0"
-                    current_word = ""
-                    continue
+                # next_state = find_next_state(graph, token, state, x)
+                # if check_end_state(end, next_state):
+                #     if end[next_state] != "SPACE":
+                #         output(end, vc_tok, vc_tok_verbose, state, current_word, count_line, count_col)
+                #         print("hi")
+                #     print(current_word)
+                count_col = len(current_word) + count_col + 1
                 state = "0"
-                current_word = "0"
+                current_word = ""
+                continue
+
         index_x = -1
         count_line += 1
         count_col = 1
+
+    # add end token
     next_state = find_next_state(graph, token, state, "__eof__")
-    if check_end_state(end, next_state):
-        output(end, vc_tok, vc_tok_verbose, next_state, "$", count_line, count_col)
+    output(end, vc_tok, vc_tok_verbose, next_state, "$", count_line, count_col)
 
 def generate_token(file):
     graph, end = readAutomation()
@@ -198,8 +214,7 @@ def generate_token(file):
     print("Done")
 
 if __name__ == '__main__':
-    generate_token("example_fib")
-    # generate_token("in")
+    generate_token("input_file_name")
 
 
 
