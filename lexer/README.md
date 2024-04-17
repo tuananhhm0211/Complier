@@ -1,4 +1,4 @@
-# Input
+# How to run
 - Starting file is `main.py`.
 ```py
 if __name__ == '__main__':
