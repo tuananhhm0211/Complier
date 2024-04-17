@@ -183,17 +183,7 @@ def scan(graph, end, token, input_file):
                         current_word = ""
                         state = "0"
 
-                    # else:
-                    #     current_word += x
-                    #     state = next_state
-                    #     print("hi")
             else:
-                # next_state = find_next_state(graph, token, state, x)
-                # if check_end_state(end, next_state):
-                #     if end[next_state] != "SPACE":
-                #         output(end, vc_tok, vc_tok_verbose, state, current_word, count_line, count_col)
-                #         print("hi")
-                #     print(current_word)
                 count_col = len(current_word) + count_col + 1
                 state = "0"
                 current_word = ""
@@ -214,7 +204,7 @@ def generate_token(file):
     print("Done")
 
 if __name__ == '__main__':
-    generate_token("input_file_name")
+    generate_token("in")
 
 
 
