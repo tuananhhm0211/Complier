@@ -3,7 +3,7 @@ import json
 
 def readAutomation():
     #read file .dat save graph and end states
-    f = open("automaton.dat", "r")
+    f = open("lexer/automaton.dat", "r")
     graph = dict()
     endstate = dict()
     transitionFlag = False
@@ -64,10 +64,10 @@ def output(end, vc_tok, vc_tok_verbose, state, current_word, count_line,count_co
           file=vc_tok_verbose)
 
 def scan(graph, end, token, input_file):
-    input_file_path = f"{input_file}.vc"
+    input_file_path = f"lexer/{input_file}.vc"
     f = open(input_file_path, "r")
-    vctok_path = f"{input_file}.vctok"
-    vctok_verbose_path = f"{input_file}.verbose.vctok"
+    vctok_path = f"lexer/{input_file}.vctok"
+    vctok_verbose_path = f"lexer/{input_file}.verbose.vctok"
     vc_tok = open(vctok_path, 'w')
     vc_tok_verbose = open(vctok_verbose_path, 'w')
     state = "0"
@@ -199,12 +199,12 @@ def scan(graph, end, token, input_file):
 
 def generate_token(file):
     graph, end = readAutomation()
-    token = json.load(open('tokenDefinition.json'))
+    token = json.load(open('lexer/tokenDefinition.json'))
     scan(graph, end, token, file)
     print("Done")
 
 if __name__ == '__main__':
-    generate_token("in")
+    generate_token("sample_pscomp")
 
 
 

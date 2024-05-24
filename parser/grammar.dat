@@ -1,0 +1,104 @@
+func-decl, FLOAT VOID BOOLEAN INT, type identifier para-list compound-stmt
+var-decl, FLOAT VOID BOOLEAN INT, type init-declarator-list SEMICOLON
+init-declarator-list, IDENTIFIER, init-declarator init-declarator-list-t
+init-declarator-list-t, COMMA, COMMA init-declarator init-declarator-list-t
+init-declarator-list-t, SEMICOLON $, EPSILON
+init-declarator, IDENTIFIER, declarator init-declarator-t
+init-declarator-t, ASSIGN, ASSIGN initialiser
+init-declarator-t, SEMICOLON $ COMMA, EPSILON
+declarator, IDENTIFIER, identifier declarator-t
+declarator-t, LEFT_BRACKET, array-declarator
+declarator-t, SEMICOLON RIGHT_PAREN ASSIGN $ COMMA, EPSILON
+array-declarator, LEFT_BRACKET, LEFT_BRACKET array-declarator-int RIGHT_BRACKET
+array-declarator-int, INTLITERAL, INTLITERAL
+array-declarator-int, $ RIGHT_BRACKET, EPSILON
+initialiser, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, expr
+initialiser, LEFT_BRACE, LEFT_BRACE expr initialiser-t RIGHT_BRACE
+initialiser-t, COMMA, COMMA expr initialiser-t
+initialiser-t, $ RIGHT_BRACE, EPSILON
+type, VOID, VOID
+type, BOOLEAN, BOOLEAN
+type, INT, INT
+type, FLOAT, FLOAT
+identifier, IDENTIFIER, IDENTIFIER
+compound-stmt, LEFT_BRACE, LEFT_BRACE var-decl-list stmt-list RIGHT_BRACE
+var-decl-list, FLOAT VOID BOOLEAN INT, var-decl var-decl-list
+var-decl-list, SEMICOLON INTLITERAL RETURN IDENTIFIER BOOLEANLITERAL $ PLUS CONTINUE MINUS LEFT_PAREN BREAK WHILE ELSE FLOATLITERAL IF NOT LEFT_BRACE STRINGLITERAL FOR RIGHT_BRACE, EPSILON
+stmt-list, SEMICOLON INTLITERAL RETURN IDENTIFIER BOOLEANLITERAL PLUS CONTINUE MINUS LEFT_PAREN BREAK WHILE FLOATLITERAL IF NOT LEFT_BRACE STRINGLITERAL FOR, stmt stmt-list
+stmt-list, $ RIGHT_BRACE, EPSILON
+stmt, LEFT_BRACE, compound-stmt
+stmt, IF, if-stmt
+stmt, FOR, for-stmt
+stmt, WHILE, while-stmt
+stmt, BREAK, break-stmt
+stmt, CONTINUE, continue-stmt
+stmt, RETURN, return-stmt
+stmt, SEMICOLON INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, expr-stmt
+if-stmt, IF, IF LEFT_PAREN expr RIGHT_PAREN compound-stmt else-stmt
+else-stmt, ELSE, ELSE stmt
+else-stmt, SEMICOLON INTLITERAL RETURN IDENTIFIER BOOLEANLITERAL $ PLUS CONTINUE MINUS LEFT_PAREN BREAK WHILE FLOATLITERAL IF NOT LEFT_BRACE STRINGLITERAL FOR RIGHT_BRACE, EPSILON
+for-stmt, FOR, FOR LEFT_PAREN expr-t SEMICOLON expr-t SEMICOLON expr-t RIGHT_PAREN stmt
+while-stmt, WHILE, WHILE LEFT_PAREN expr RIGHT_PAREN stmt
+break-stmt, BREAK, BREAK SEMICOLON
+continue-stmt, CONTINUE, CONTINUE SEMICOLON
+return-stmt, RETURN, RETURN expr-t SEMICOLON
+expr-stmt, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, expr SEMICOLON
+expr-stmt, SEMICOLON, SEMICOLON
+expr-t, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, expr
+expr-t, SEMICOLON $, EPSILON
+expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, assign-expr
+assign-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, cond-or-expr assign-expr-t
+assign-expr-t, ASSIGN, ASSIGN cond-or-expr assign-expr-t
+assign-expr-t, SEMICOLON RIGHT_PAREN COMMA $ RIGHT_BRACKET RIGHT_BRACE, EPSILON
+cond-or-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, cond-and-expr cond-or-expr-t
+cond-or-expr-t, OR, OR cond-and-expr cond-or-expr-t
+cond-or-expr-t, SEMICOLON RIGHT_PAREN ASSIGN $ COMMA RIGHT_BRACKET RIGHT_BRACE, EPSILON
+cond-and-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, equality-expr cond-and-expr-t
+cond-and-expr-t, AND, AND equality-expr cond-and-expr-t
+cond-and-expr-t, SEMICOLON RIGHT_PAREN ASSIGN $ COMMA OR RIGHT_BRACKET RIGHT_BRACE, EPSILON
+equality-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, relational-expr equality-expr-t
+equality-expr-t, EQ, EQ relational-expr equality-expr-t
+equality-expr-t, NEQ, NEQ relational-expr equality-expr-t
+equality-expr-t, SEMICOLON RIGHT_PAREN ASSIGN $ COMMA OR AND RIGHT_BRACKET RIGHT_BRACE, EPSILON
+relational-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, additive-expr relational-expr-t
+relational-expr-t, LT, LT additive-expr relational-expr-t
+relational-expr-t, GT, GT additive-expr relational-expr-t
+relational-expr-t, LEQ, LEQ additive-expr relational-expr-t
+relational-expr-t, GEQ, GEQ additive-expr relational-expr-t
+relational-expr-t, SEMICOLON EQ RIGHT_PAREN ASSIGN $ NEQ RIGHT_BRACKET COMMA OR AND RIGHT_BRACE, EPSILON
+additive-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, multiplicative-expr additive-expr-t
+additive-expr-t, PLUS, PLUS multiplicative-expr additive-expr-t
+additive-expr-t, MINUS, MINUS multiplicative-expr additive-expr-t
+additive-expr-t, SEMICOLON LT EQ RIGHT_PAREN ASSIGN $ LEQ NEQ GEQ COMMA OR AND RIGHT_BRACKET RIGHT_BRACE GT, EPSILON
+multiplicative-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, unary-expr multiplicative-expr-t
+multiplicative-expr-t, MULTIPLY, MULTIPLY unary-expr multiplicative-expr-t
+multiplicative-expr-t, DIVIDE, DIVIDE unary-expr multiplicative-expr-t
+multiplicative-expr-t, SEMICOLON LT ASSIGN $ PLUS LEQ MINUS OR RIGHT_BRACKET AND GT EQ RIGHT_PAREN NEQ GEQ COMMA RIGHT_BRACE, EPSILON
+unary-expr, NOT PLUS MINUS, unary-op primary-expr
+unary-expr, INTLITERAL IDENTIFIER BOOLEANLITERAL FLOATLITERAL STRINGLITERAL LEFT_PAREN, primary-expr
+unary-op, PLUS, PLUS
+unary-op, MINUS, MINUS
+unary-op, NOT, NOT
+primary-expr, IDENTIFIER, identifier primary-expr-t
+primary-expr, LEFT_PAREN, LEFT_PAREN expr RIGHT_PAREN
+primary-expr, INTLITERAL, INTLITERAL
+primary-expr, FLOATLITERAL, FLOATLITERAL
+primary-expr, BOOLEANLITERAL, BOOLEANLITERAL
+primary-expr, STRINGLITERAL, STRINGLITERAL
+primary-expr-t, LEFT_BRACKET, LEFT_BRACKET expr RIGHT_BRACKET
+primary-expr-t, LEFT_PAREN, arg-list
+primary-expr-t, SEMICOLON LT MULTIPLY ASSIGN $ PLUS LEQ MINUS OR RIGHT_BRACKET AND DIVIDE GT EQ RIGHT_PAREN NEQ GEQ COMMA RIGHT_BRACE, EPSILON
+para-list, LEFT_PAREN, LEFT_PAREN para-list-t RIGHT_PAREN
+para-list-t, FLOAT VOID BOOLEAN INT, proper-para-list
+para-list-t, $ RIGHT_PAREN, EPSILON
+proper-para-list, FLOAT VOID BOOLEAN INT, para-decl proper-para-list-t
+proper-para-list-t, COMMA, COMMA para-decl proper-para-list-t
+proper-para-list-t, $ RIGHT_PAREN, EPSILON
+para-decl, FLOAT VOID BOOLEAN INT, type declarator
+arg-list, LEFT_PAREN, LEFT_PAREN arg-list-t RIGHT_PAREN
+arg-list-t, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, proper-arg-list
+arg-list-t, $ RIGHT_PAREN, EPSILON
+proper-arg-list, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, arg proper-arg-list-t
+proper-arg-list-t, COMMA, COMMA arg proper-arg-list-t
+proper-arg-list-t, $ RIGHT_PAREN, EPSILON
+arg, INTLITERAL IDENTIFIER BOOLEANLITERAL PLUS STRINGLITERAL FLOATLITERAL NOT MINUS LEFT_PAREN, expr
